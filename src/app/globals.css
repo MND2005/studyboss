@@ -4,33 +4,33 @@
 
 @layer base {
   :root {
-    --background-rgb: 42 10 10;
-    --foreground-rgb: 224 224 224;
+    --background-rgb: 240 242 245;
+    --foreground-rgb: 17 24 39;
 
-    --card-rgb: 13 13 13;
-    --card-foreground-rgb: 224 224 224;
+    --card-rgb: 255 255 255;
+    --card-foreground-rgb: 17 24 39;
 
-    --popover-rgb: 13 13 13;
-    --popover-foreground-rgb: 224 224 224;
+    --popover-rgb: 255 255 255;
+    --popover-foreground-rgb: 17 24 39;
 
-    --primary-rgb: 255 77 77;
+    --primary-rgb: 37 99 235;
     --primary-foreground-rgb: 255 255 255;
     
-    --secondary-rgb: 77 10 10;
-    --secondary-foreground-rgb: 224 224 224;
+    --secondary-rgb: 243 244 246;
+    --secondary-foreground-rgb: 55 65 81;
 
-    --muted-rgb: 77 10 10;
-    --muted-foreground-rgb: 160 160 160;
+    --muted-rgb: 243 244 246;
+    --muted-foreground-rgb: 107 114 128;
 
-    --accent-rgb: 255 77 77;
-    --accent-foreground-rgb: 255 255 255;
+    --accent-rgb: 220 231 255;
+    --accent-foreground-rgb: 30 64 175;
 
-    --destructive-rgb: 204 0 0;
+    --destructive-rgb: 220 38 38;
     --destructive-foreground-rgb: 255 255 255;
     
-    --border-rgb: 255 77 77;
-    --input-rgb: 30 30 30;
-    --ring-rgb: 255 77 77;
+    --border-rgb: 229 231 235;
+    --input-rgb: 229 231 235;
+    --ring-rgb: 37 99 235;
 
     --background: var(--background-rgb);
     --foreground: var(--foreground-rgb);
@@ -51,7 +51,7 @@
     --border: var(--border-rgb);
     --input: var(--input-rgb);
     --ring: var(--ring-rgb);
-    --radius: 0.5rem;
+    --radius: 0.75rem;
   }
 }
  
@@ -62,37 +62,5 @@
   body {
     background-color: rgb(var(--background));
     color: rgb(var(--foreground));
-    background-image: 
-        radial-gradient(circle at 10% 20%, rgba(255, 50, 50, 0.1) 0%, transparent 20%),
-        radial-gradient(circle at 90% 80%, rgba(255, 50, 50, 0.1) 0%, transparent 20%),
-        url('https://wallpapercave.com/wp/wp9501590.jpg');
-    background-size: cover;
-    background-attachment: fixed;
-    background-position: center;
-    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="%23b30000"><polygon points="12,2 9,9 2,9 8,14 5,21 12,17 19,21 16,14 22,9 15,9"/></svg>'), auto;
-  }
-  
-  body::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.781);
-    z-index: -1;
-  }
-
-  h2 {
-      @apply text-2xl mb-5 font-bold text-primary-foreground border-b border-accent pb-2 relative;
-      text-shadow: 0 0 5px hsl(var(--primary));
-  }
-
-  h2::after {
-      content: "";
-      position: absolute;
-      bottom: -1px;
-      left: 0;
-      width: 50px;
-      height: 2px;
-      background: hsl(var(--primary));
-      box-shadow: 0 0 5px hsl(var(--primary));
   }
 }

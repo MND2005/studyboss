@@ -59,16 +59,17 @@ export default function LoginPage() {
   };
   
   if (loading || user) {
-    return <div className="flex items-center justify-center min-h-screen bg-background">Loading...</div>;
+    return <div className="flex items-center justify-center min-h-screen">Loading...</div>;
   }
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-background p-4">
-      <Card className="w-full max-w-sm">
+    <div className="flex items-center justify-center min-h-[80vh]">
+      <Card className="w-full max-w-sm bg-card/80 backdrop-blur-sm">
         <CardHeader className="text-center">
             <div className="flex justify-center items-center gap-2 mb-4">
-              <Feather className="w-8 h-8 text-primary" />
-              <h1 className="text-2xl font-bold text-foreground">AquaStudy</h1>
+              <div className="bg-primary/10 p-2 rounded-lg">
+                <Feather className="w-6 h-6 text-primary" />
+              </div>
             </div>
           <CardTitle>Welcome Back!</CardTitle>
           <CardDescription>Enter your credentials to access your dashboard.</CardDescription>
@@ -109,7 +110,7 @@ export default function LoginPage() {
           </Form>
           <div className="mt-4 text-center text-sm">
             Don't have an account?{' '}
-            <Link href="/signup" className="underline">
+            <Link href="/signup" className="underline text-primary">
               Sign up
             </Link>
           </div>

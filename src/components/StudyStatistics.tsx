@@ -11,13 +11,13 @@ interface StudyStatisticsProps {
 }
 
 const StatCard = ({ icon, title, value }: { icon: React.ReactNode, title: string, value: string }) => (
-    <div className="bg-black/50 border border-accent rounded-lg p-3 flex items-center gap-4 hover:bg-black/70 transition-colors">
-        <div className="text-2xl text-primary-foreground w-12 h-12 bg-red-900/50 rounded-full flex items-center justify-center border border-accent shrink-0">
+    <div className="bg-secondary/50 rounded-lg p-4 flex items-center gap-4 hover:bg-secondary transition-colors">
+        <div className="text-primary bg-primary/10 rounded-lg p-2">
             {icon}
         </div>
         <div>
-            <h3 className="text-muted-foreground">{title}</h3>
-            <p className="text-lg font-bold text-primary-foreground">{value}</p>
+            <h3 className="text-muted-foreground text-sm">{title}</h3>
+            <p className="text-lg font-bold text-foreground">{value}</p>
         </div>
     </div>
 )
@@ -73,8 +73,8 @@ export function StudyStatistics({ sessions }: StudyStatisticsProps) {
     }, [sessions]);
 
     return (
-        <Card className="p-4 bg-black/40 border-accent shadow-lg h-full">
-            <h2>Study Statistics</h2>
+        <Card className="p-6 bg-card/80 backdrop-blur-sm h-full">
+            <h2 className="text-xl font-semibold mb-4">Study Statistics</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
                 <StatCard icon={<Timer/>} title="Weekly Total" value={stats.weeklyTotal} />
                 <StatCard icon={<CalendarCheck />} title="Best Day" value={stats.bestDay} />

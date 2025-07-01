@@ -47,7 +47,6 @@ export function StudyTimer({ user, sessions }: StudyTimerProps) {
       uid: user.uid,
       startTime: serverTimestamp(),
       duration: 0,
-      // Add a placeholder endTime which will be updated on stop
       endTime: null, 
     };
     const docRef = await addDoc(collection(db, 'studySessions'), newSession);
@@ -88,26 +87,26 @@ export function StudyTimer({ user, sessions }: StudyTimerProps) {
     .reduce((total, s) => total + s.duration, 0);
 
   return (
-    <Card className="p-4 bg-black/40 border-accent shadow-lg h-full flex flex-col">
-      <h2>Study Timer</h2>
+    <Card className="p-6 bg-card/80 backdrop-blur-sm h-full flex flex-col">
+      <h2 className="text-xl font-semibold">Study Timer</h2>
       <div className="flex-grow flex flex-col justify-center">
-        <div className="text-5xl text-center my-4 font-mono text-primary-foreground" style={{textShadow: '0 0 10px hsl(var(--primary))'}}>
+        <div className="text-6xl text-center my-4 font-mono font-semibold text-foreground">
           {formatTime(time)}
         </div>
         <div className="flex justify-center gap-4 my-6">
-          <Button onClick={handleStart} disabled={isActive} variant="primary">
-              <Play /> Start
+          <Button onClick={handleStart} disabled={isActive} size="lg">
+              <Play className="mr-2"/> Start
           </Button>
-          <Button onClick={handlePauseResume} disabled={!isActive} variant="secondary">
-              {isPaused ? <Play /> : <Pause />} {isPaused ? 'Resume' : 'Pause'}
+          <Button onClick={handlePauseResume} disabled={!isActive} variant="secondary" size="lg">
+              {isPaused ? <Play className="mr-2" /> : <Pause className="mr-2" />} {isPaused ? 'Resume' : 'Pause'}
           </Button>
-          <Button onClick={handleStop} disabled={!isActive} variant="destructive">
-              <Square/> Stop
+          <Button onClick={handleStop} disabled={!isActive} variant="destructive" size="lg">
+              <Square className="mr-2"/> Stop
           </Button>
         </div>
       </div>
-      <div className="text-center text-lg mt-auto">
-        <p>Today's study time: <span className="font-bold text-primary-foreground">{formatTime(todayStudyTime)}</span></p>
+      <div className="text-center text-md mt-auto">
+        <p className="text-muted-foreground">Today's total: <span className="font-bold text-foreground">{formatTime(todayStudyTime)}</span></p>
       </div>
     </Card>
   );

@@ -59,17 +59,18 @@ export default function SignupPage() {
   };
   
   if (loading || user) {
-    return <div className="flex items-center justify-center min-h-screen bg-background">Loading...</div>;
+    return <div className="flex items-center justify-center min-h-screen">Loading...</div>;
   }
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-background p-4">
-      <Card className="w-full max-w-sm">
+    <div className="flex items-center justify-center min-h-[80vh]">
+      <Card className="w-full max-w-sm bg-card/80 backdrop-blur-sm">
         <CardHeader className="text-center">
-          <div className="flex justify-center items-center gap-2 mb-4">
-            <Feather className="w-8 h-8 text-primary" />
-            <h1 className="text-2xl font-bold text-foreground">AquaStudy</h1>
-          </div>
+            <div className="flex justify-center items-center gap-2 mb-4">
+                <div className="bg-primary/10 p-2 rounded-lg">
+                    <Feather className="w-6 h-6 text-primary" />
+                </div>
+            </div>
           <CardTitle>Create an Account</CardTitle>
           <CardDescription>Start organizing your studies with AquaStudy.</CardDescription>
         </CardHeader>
@@ -109,7 +110,7 @@ export default function SignupPage() {
           </Form>
           <div className="mt-4 text-center text-sm">
             Already have an account?{' '}
-            <Link href="/login" className="underline">
+            <Link href="/login" className="underline text-primary">
               Sign in
             </Link>
           </div>
