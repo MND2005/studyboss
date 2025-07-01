@@ -1,16 +1,17 @@
+import type { Timestamp } from "firebase/firestore";
+
 export type StudySession = {
   id: string;
-  subject: string;
-  topic: string;
-  date: Date;
-  duration: number; // planned duration in minutes
-  resources?: string;
-  status: 'planned' | 'in-progress' | 'completed';
-  startTime?: Date;
-  actualDuration?: number; // in minutes
+  uid: string;
+  startTime: Timestamp;
+  endTime?: Timestamp;
+  duration: number; // in seconds
 };
 
-export type Subject = {
-  name: string;
-  color: string;
-};
+
+export type Countdown = {
+    id: string;
+    uid: string;
+    title: string;
+    targetDate: Timestamp;
+}
