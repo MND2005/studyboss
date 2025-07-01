@@ -45,7 +45,7 @@ export function Header() {
   return (
     <header className="flex justify-between items-center py-4 border-b mb-6 flex-wrap gap-4">
         <h1 className="text-2xl font-bold text-foreground">
-            Jeewana's Study Dashboard
+            {user ? `${user.displayName}'s Study Dashboard` : "Study Dashboard"}
         </h1>
         
         <div className="flex items-center gap-6">

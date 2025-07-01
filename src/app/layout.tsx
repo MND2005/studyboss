@@ -8,7 +8,7 @@ import { Inter } from 'next/font/google';
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 
 export const metadata: Metadata = {
-  title: "Jeewana's Study Dashboard",
+  title: "Study Dashboard",
   description: 'A modern dashboard to track study progress and stay motivated.',
 };
 
