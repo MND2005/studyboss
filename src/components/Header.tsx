@@ -1,12 +1,21 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Image from 'next/image';
 import Link from 'next/link';
 import { useAuth } from "./AuthProvider";
 import { auth, signOut as firebaseSignOut } from "@/lib/firebase";
 import { Button } from "./ui/button";
 import { LogIn, LogOut } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+
 
 const CurrentTime = () => {
     const [time, setTime] = useState({date: '', time: ''});
@@ -54,27 +63,53 @@ export function Header() {
                 {loading ? (
                     <div className="h-10 w-full md:w-48 bg-muted animate-pulse rounded-md"></div>
                 ) : user ? (
-                    <div id="user-display" className="flex items-center justify-between w-full gap-3">
-                        <div className="flex items-center gap-3">
-                            <Image 
-                                id="user-avatar" 
-                                src={user.photoURL || `https://placehold.co/40x40.png`} 
-                                alt="User Avatar"
-                                width={40}
-                                height={40}
-                                className="rounded-full shadow-sm"
-                                data-ai-hint="user avatar"
-                            />
-                            <div className="text-sm">
-                                <div className="font-medium text-foreground">{user.displayName || user.email}</div>
-                                <div className="text-muted-foreground">{user.email}</div>
+                    <>
+                        {/* Desktop View */}
+                        <div id="user-display-desktop" className="hidden md:flex items-center justify-between w-full gap-3">
+                            <div className="flex items-center gap-3">
+                                <Avatar className="h-10 w-10">
+                                    <AvatarImage src={user.photoURL || `https://placehold.co/40x40.png`} data-ai-hint="user avatar" alt={user.displayName || 'User Avatar'} />
+                                    <AvatarFallback>{user.displayName?.charAt(0)?.toUpperCase() || 'U'}</AvatarFallback>
+                                </Avatar>
+                                <div className="text-sm">
+                                    <div className="font-medium text-foreground">{user.displayName || user.email}</div>
+                                    <div className="text-muted-foreground">{user.email}</div>
+                                </div>
                             </div>
+                            <Button onClick={handleSignOut} variant="outline" size="icon" id="logout-button">
+                                <LogOut className="h-4 w-4"/>
+                                <span className="sr-only">Sign out</span>
+                            </Button>
                         </div>
-                        <Button onClick={handleSignOut} variant="outline" size="icon" id="logout-button">
-                            <LogOut className="h-4 w-4"/>
-                            <span className="sr-only">Sign out</span>
-                        </Button>
-                    </div>
+                        {/* Mobile View */}
+                        <div className="flex md:hidden items-center justify-end w-full">
+                            <DropdownMenu>
+                              <DropdownMenuTrigger asChild>
+                                <Button variant="ghost" className="relative h-10 w-10 rounded-full p-0">
+                                  <Avatar className="h-10 w-10">
+                                    <AvatarImage src={user.photoURL || `https://placehold.co/40x40.png`} data-ai-hint="user avatar" alt={user.displayName || 'User Avatar'} />
+                                    <AvatarFallback>{user.displayName?.charAt(0)?.toUpperCase() || 'U'}</AvatarFallback>
+                                  </Avatar>
+                                </Button>
+                              </DropdownMenuTrigger>
+                              <DropdownMenuContent className="w-56" align="end">
+                                <DropdownMenuLabel className="font-normal">
+                                  <div className="flex flex-col space-y-1">
+                                    <p className="text-sm font-medium leading-none">{user.displayName}</p>
+                                    <p className="text-xs leading-none text-muted-foreground">
+                                      {user.email}
+                                    </p>
+                                  </div>
+                                </DropdownMenuLabel>
+                                <DropdownMenuSeparator />
+                                <DropdownMenuItem onClick={handleSignOut}>
+                                  <LogOut className="mr-2 h-4 w-4" />
+                                  <span>Log out</span>
+                                </DropdownMenuItem>
+                              </DropdownMenuContent>
+                            </DropdownMenu>
+                        </div>
+                    </>
                 ) : (
                     <Button asChild variant="outline" id="login-button" className="w-full">
                         <Link href="/login">
