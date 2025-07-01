@@ -1,10 +1,10 @@
-
 'use client';
 
 import { useMemo } from 'react';
 import type { StudySession } from '@/lib/types';
 import { Card } from './ui/card';
-import { Timer, CalendarCheck, Trophy, LineChart } from 'lucide-react';
+import { Button } from './ui/button';
+import { Timer, CalendarCheck, Trophy, LineChart, Download } from 'lucide-react';
 
 interface StudyStatisticsProps {
   sessions: StudySession[];
@@ -72,14 +72,55 @@ export function StudyStatistics({ sessions }: StudyStatisticsProps) {
 
     }, [sessions]);
 
+    const hasCompletedSessions = useMemo(() => {
+        return sessions.some(s => s.endTime && s.startTime);
+    }, [sessions]);
+
+    const handleDownload = () => {
+        const completedSessions = sessions.filter(s => s.endTime && s.startTime);
+        if (completedSessions.length === 0) {
+          return;
+        }
+
+        const csvHeaders = ["Date", "Start Time", "End Time", "Duration (minutes)"];
+        const csvRows = completedSessions.map(session => {
+            const date = session.startTime.toDate().toLocaleDateString();
+            const startTime = session.startTime.toDate().toLocaleTimeString();
+            const endTime = session.endTime!.toDate().toLocaleTimeString();
+            const durationMinutes = Math.round(session.duration / 60);
+            return [date, startTime, endTime, durationMinutes].join(',');
+        });
+
+        const csvContent = [csvHeaders.join(','), ...csvRows].join('\n');
+        
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const link = document.createElement("a");
+        const url = URL.createObjectURL(blob);
+        link.setAttribute("href", url);
+        link.setAttribute("download", "study_report.csv");
+        link.style.visibility = 'hidden';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+    };
+
     return (
-        <Card className="p-6 bg-card/80 backdrop-blur-sm h-full">
-            <h2 className="text-xl font-semibold mb-4">Study Statistics</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
-                <StatCard icon={<Timer/>} title="Weekly Total" value={stats.weeklyTotal} />
-                <StatCard icon={<CalendarCheck />} title="Best Day" value={stats.bestDay} />
-                <StatCard icon={<Trophy />} title="Average Daily" value={stats.avgDaily} />
-                <StatCard icon={<LineChart />} title="Current Streak" value={stats.streak} />
+        <Card className="p-6 bg-card/80 backdrop-blur-sm h-full flex flex-col">
+            <div>
+                <h2 className="text-xl font-semibold mb-4">Study Statistics</h2>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
+                    <StatCard icon={<Timer/>} title="Weekly Total" value={stats.weeklyTotal} />
+                    <StatCard icon={<CalendarCheck />} title="Best Day" value={stats.bestDay} />
+                    <StatCard icon={<Trophy />} title="Average Daily" value={stats.avgDaily} />
+                    <StatCard icon={<LineChart />} title="Current Streak" value={stats.streak} />
+                </div>
+            </div>
+            <div className="mt-auto pt-4">
+                <Button onClick={handleDownload} className="w-full" disabled={!hasCompletedSessions}>
+                    <Download className="mr-2 h-4 w-4" />
+                    Download Report
+                </Button>
             </div>
         </Card>
     );
