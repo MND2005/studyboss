@@ -8,10 +8,8 @@ export type StudySession = {
   duration: number; // in seconds
 };
 
-
-export type Countdown = {
-    id: string;
-    uid: string;
-    title: string;
-    targetDate: Timestamp;
-}
+export type AppUser = {
+  uid: string;
+  displayName: string;
+  email: string;
+};
