@@ -2,6 +2,9 @@
 
 import { useState, useEffect } from "react";
 import { PlusCircle } from "lucide-react";
+import type { User } from "firebase/auth";
+import { collection, query, where, onSnapshot, addDoc, Timestamp } from "firebase/firestore";
+import { db } from "@/lib/firebase";
 import type { StudySession } from "@/lib/types";
 import { Button } from "@/components/ui/button";
 import { AddSessionDialog } from "@/components/AddSessionDialog";
@@ -10,30 +13,51 @@ import { UpcomingDeadlines } from "@/components/UpcomingDeadlines";
 import { SchedulerCalendar } from "@/components/SchedulerCalendar";
 import { Skeleton } from "@/components/ui/skeleton";
 
-// This function will only be called on the client side
-const getInitialSessions = (): StudySession[] => {
-  return [
-    { id: '1', subject: 'Mathematics', topic: 'Calculus I Review', date: new Date(new Date().setDate(new Date().getDate() + 3)), duration: 120, resources: 'Textbook Ch. 1-3' },
-    { id: '2', subject: 'History', topic: 'The Roman Empire', date: new Date(new Date().setDate(new Date().getDate() + 5)), duration: 90, resources: 'Documentary on YouTube' },
-    { id: '3', subject: 'Science', topic: 'Photosynthesis', date: new Date(new Date().setDate(new Date().getDate() - 2)), duration: 60, resources: 'Khan Academy videos' },
-    { id: '4', subject: 'Mathematics', topic: 'Algebraic Equations', date: new Date(new Date().setDate(new Date().getDate() - 4)), duration: 75, resources: 'Practice worksheets' },
-    { id: '5', subject: 'English', topic: 'Shakespeare Sonnets', date: new Date(new Date().setDate(new Date().getDate() + 7)), duration: 45, resources: 'Complete Works of Shakespeare' },
-    { id: '6', subject: 'Science', topic: 'Cellular Respiration', date: new Date(), duration: 80, resources: 'Biology Textbook Ch. 9' },
-  ];
+type DashboardClientProps = {
+  user: User;
 };
 
-export function DashboardClient() {
+export function DashboardClient({ user }: DashboardClientProps) {
   const [sessions, setSessions] = useState<StudySession[] | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   useEffect(() => {
-    // Generate initial sessions only on the client-side after mounting
-    // to prevent hydration mismatch.
-    setSessions(getInitialSessions());
-  }, []);
+    if (!user) return;
 
-  const addSession = (newSession: Omit<StudySession, 'id'>) => {
-    setSessions(prev => (prev ? [...prev, { ...newSession, id: crypto.randomUUID() }] : [{ ...newSession, id: crypto.randomUUID() }]));
+    const sessionsCollection = collection(db, "studySessions");
+    const q = query(sessionsCollection, where("uid", "==", user.uid));
+
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      const sessionsData: StudySession[] = [];
+      querySnapshot.forEach((doc) => {
+        const data = doc.data();
+        sessionsData.push({
+          id: doc.id,
+          subject: data.subject,
+          topic: data.topic,
+          date: (data.date as Timestamp).toDate(),
+          duration: data.duration,
+          resources: data.resources,
+        });
+      });
+      setSessions(sessionsData);
+    });
+
+    return () => unsubscribe();
+  }, [user]);
+
+  const addSession = async (newSessionData: Omit<StudySession, 'id'>) => {
+    if (!user) return;
+    
+    try {
+        await addDoc(collection(db, "studySessions"), {
+            ...newSessionData,
+            date: Timestamp.fromDate(newSessionData.date),
+            uid: user.uid,
+        });
+    } catch (error) {
+        console.error("Error adding document: ", error);
+    }
   };
 
   return (
