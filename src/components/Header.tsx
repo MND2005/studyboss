@@ -43,31 +43,31 @@ export function Header() {
   };
 
   return (
-    <header className="flex justify-between items-center py-4 border-b mb-6 flex-wrap gap-4">
+    <header className="flex flex-col md:flex-row justify-between items-start md:items-center py-4 border-b mb-6 gap-4">
         <h1 className="text-2xl font-bold text-foreground">
             {user ? `${user.displayName}'s Study Dashboard` : "Study Dashboard"}
         </h1>
         
-        <div className="flex items-center gap-6">
-            <CurrentTime />
-            
-            <div className="auth-container flex items-center gap-4">
+        <div className="flex items-center gap-6 w-full md:w-auto">
+            <div className="auth-container flex items-center gap-4 flex-grow md:flex-grow-0">
                 {loading ? (
-                    <div className="h-10 w-24 bg-muted animate-pulse rounded-md"></div>
+                    <div className="h-10 w-full md:w-48 bg-muted animate-pulse rounded-md"></div>
                 ) : user ? (
-                    <div id="user-display" className="flex items-center gap-3">
-                        <Image 
-                            id="user-avatar" 
-                            src={user.photoURL || `https://placehold.co/40x40.png`} 
-                            alt="User Avatar"
-                            width={40}
-                            height={40}
-                            className="rounded-full shadow-sm"
-                            data-ai-hint="user avatar"
-                        />
-                        <div className="text-sm">
-                            <div className="font-medium text-foreground">{user.displayName || user.email}</div>
-                            <div className="text-muted-foreground">{user.email}</div>
+                    <div id="user-display" className="flex items-center justify-between w-full gap-3">
+                        <div className="flex items-center gap-3">
+                            <Image 
+                                id="user-avatar" 
+                                src={user.photoURL || `https://placehold.co/40x40.png`} 
+                                alt="User Avatar"
+                                width={40}
+                                height={40}
+                                className="rounded-full shadow-sm"
+                                data-ai-hint="user avatar"
+                            />
+                            <div className="text-sm">
+                                <div className="font-medium text-foreground">{user.displayName || user.email}</div>
+                                <div className="text-muted-foreground">{user.email}</div>
+                            </div>
                         </div>
                         <Button onClick={handleSignOut} variant="outline" size="icon" id="logout-button">
                             <LogOut className="h-4 w-4"/>
@@ -75,13 +75,14 @@ export function Header() {
                         </Button>
                     </div>
                 ) : (
-                    <Button asChild variant="outline" id="login-button">
+                    <Button asChild variant="outline" id="login-button" className="w-full">
                         <Link href="/login">
                             <LogIn /> Sign In
                         </Link>
                     </Button>
                 )}
             </div>
+            <CurrentTime />
         </div>
     </header>
   );
