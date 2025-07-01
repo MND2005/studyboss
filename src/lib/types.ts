@@ -3,8 +3,11 @@ export type StudySession = {
   subject: string;
   topic: string;
   date: Date;
-  duration: number; // in minutes
+  duration: number; // planned duration in minutes
   resources?: string;
+  status: 'planned' | 'in-progress' | 'completed';
+  startTime?: Date;
+  actualDuration?: number; // in minutes
 };
 
 export type Subject = {

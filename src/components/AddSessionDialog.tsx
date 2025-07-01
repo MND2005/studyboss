@@ -54,7 +54,7 @@ const formSchema = z.object({
 type AddSessionDialogProps = {
   isOpen: boolean;
   onOpenChange: (isOpen: boolean) => void;
-  onAddSession: (session: Omit<StudySession, 'id'>) => Promise<void>;
+  onAddSession: (session: Omit<StudySession, 'id' | 'status' | 'startTime' | 'actualDuration'>) => Promise<void>;
 };
 
 const subjects = ["Mathematics", "Science", "History", "English", "Art", "Computer Science"];

@@ -24,14 +24,16 @@ const chartConfig = {
 
 export function StudyProgressChart({ sessions }: StudyProgressChartProps) {
   const chartData = useMemo(() => {
-    const subjectMinutes = sessions.reduce((acc, session) => {
-      acc[session.subject] = (acc[session.subject] || 0) + session.duration;
-      return acc;
+    const subjectMinutes = sessions
+      .filter(session => session.status === 'completed' && session.actualDuration)
+      .reduce((acc, session) => {
+        acc[session.subject] = (acc[session.subject] || 0) + session.actualDuration!;
+        return acc;
     }, {} as { [key: string]: number });
 
     return Object.entries(subjectMinutes).map(([subject, minutes]) => ({
       subject,
-      minutes,
+      minutes: Math.round(minutes),
     }));
   }, [sessions]);
 
@@ -39,7 +41,7 @@ export function StudyProgressChart({ sessions }: StudyProgressChartProps) {
     <Card>
       <CardHeader>
         <CardTitle>Study Progress</CardTitle>
-        <CardDescription>Total time spent per subject (in minutes).</CardDescription>
+        <CardDescription>Total time studied per subject (in minutes).</CardDescription>
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig} className="h-[300px] w-full">
