@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Book, Bot, LayoutDashboard, Feather } from "lucide-react";
+import { LayoutDashboard, Feather } from "lucide-react";
 
 import {
   Sidebar,
@@ -22,11 +22,6 @@ export function AppSidebar() {
       href: "/",
       label: "Dashboard",
       icon: LayoutDashboard,
-    },
-    {
-      href: "/practice",
-      label: "AI Practice",
-      icon: Bot,
     },
   ];
 
