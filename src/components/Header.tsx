@@ -49,6 +49,7 @@ export function Header() {
         </h1>
         
         <div className="flex items-center gap-6 w-full md:w-auto">
+            <CurrentTime />
             <div className="auth-container flex items-center gap-4 flex-grow md:flex-grow-0">
                 {loading ? (
                     <div className="h-10 w-full md:w-48 bg-muted animate-pulse rounded-md"></div>
@@ -82,7 +83,6 @@ export function Header() {
                     </Button>
                 )}
             </div>
-            <CurrentTime />
         </div>
     </header>
   );
