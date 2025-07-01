@@ -52,20 +52,20 @@ export function Header() {
   };
 
   return (
-    <header className="flex flex-col md:flex-row justify-between items-start md:items-center py-4 border-b mb-6 gap-4">
+    <header className="flex justify-between items-center py-4 border-b mb-6">
         <h1 className="text-2xl font-bold text-foreground">
             {user ? `${user.displayName}'s Study Dashboard` : "Study Dashboard"}
         </h1>
         
-        <div className="flex items-center gap-6 w-full md:w-auto">
+        <div className="flex items-center gap-6">
             <CurrentTime />
-            <div className="auth-container flex items-center gap-4 flex-grow md:flex-grow-0">
+            <div className="auth-container">
                 {loading ? (
-                    <div className="h-10 w-full md:w-48 bg-muted animate-pulse rounded-md"></div>
+                    <div className="h-10 w-10 bg-muted animate-pulse rounded-full"></div>
                 ) : user ? (
                     <>
                         {/* Desktop View */}
-                        <div id="user-display-desktop" className="hidden md:flex items-center justify-between w-full gap-3">
+                        <div className="hidden md:flex items-center gap-4">
                             <div className="flex items-center gap-3">
                                 <Avatar className="h-10 w-10">
                                     <AvatarImage src={user.photoURL || `https://placehold.co/40x40.png`} data-ai-hint="user avatar" alt={user.displayName || 'User Avatar'} />
@@ -82,7 +82,7 @@ export function Header() {
                             </Button>
                         </div>
                         {/* Mobile View */}
-                        <div className="flex md:hidden items-center justify-end w-full">
+                        <div className="flex md:hidden">
                             <DropdownMenu>
                               <DropdownMenuTrigger asChild>
                                 <Button variant="ghost" className="relative h-10 w-10 rounded-full p-0">
@@ -111,7 +111,7 @@ export function Header() {
                         </div>
                     </>
                 ) : (
-                    <Button asChild variant="outline" id="login-button" className="w-full">
+                    <Button asChild variant="outline" id="login-button">
                         <Link href="/login">
                             <LogIn /> Sign In
                         </Link>
