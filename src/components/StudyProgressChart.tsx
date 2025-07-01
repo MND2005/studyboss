@@ -1,14 +1,26 @@
 "use client"
 
 import { useMemo } from "react";
-import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis, Tooltip } from "recharts";
+import { Bar, BarChart, XAxis, YAxis, Tooltip } from "recharts";
 import type { StudySession } from "@/lib/types";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { ChartTooltipContent } from "@/components/ui/chart";
+import {
+  ChartContainer,
+  ChartTooltipContent,
+  type ChartConfig,
+} from "@/components/ui/chart";
 
 type StudyProgressChartProps = {
   sessions: StudySession[];
 };
+
+const chartConfig = {
+  minutes: {
+    label: "Minutes",
+    color: "hsl(var(--primary))",
+  },
+} satisfies ChartConfig;
+
 
 export function StudyProgressChart({ sessions }: StudyProgressChartProps) {
   const chartData = useMemo(() => {
@@ -30,8 +42,8 @@ export function StudyProgressChart({ sessions }: StudyProgressChartProps) {
         <CardDescription>Total time spent per subject (in minutes).</CardDescription>
       </CardHeader>
       <CardContent>
-        <ResponsiveContainer width="100%" height={300}>
-          <BarChart data={chartData}>
+        <ChartContainer config={chartConfig} className="h-[300px] w-full">
+          <BarChart accessibilityLayer data={chartData}>
             <XAxis
               dataKey="subject"
               stroke="hsl(var(--muted-foreground))"
@@ -48,11 +60,11 @@ export function StudyProgressChart({ sessions }: StudyProgressChartProps) {
             />
             <Tooltip
               cursor={{ fill: 'hsl(var(--secondary))' }}
-              content={<ChartTooltipContent />} 
+              content={<ChartTooltipContent hideLabel />} 
             />
-            <Bar dataKey="minutes" fill="hsl(var(--primary))" radius={[4, 4, 0, 0]} />
+            <Bar dataKey="minutes" fill="var(--color-minutes)" radius={[4, 4, 0, 0]} />
           </BarChart>
-        </ResponsiveContainer>
+        </ChartContainer>
       </CardContent>
     </Card>
   );
