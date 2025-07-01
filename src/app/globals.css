@@ -4,33 +4,33 @@
 
 @layer base {
   :root {
-    --background-rgb: 240 242 245;
-    --foreground-rgb: 17 24 39;
+    --background-rgb: 0 0 0;
+    --foreground-rgb: 240 242 245;
 
-    --card-rgb: 255 255 255;
-    --card-foreground-rgb: 17 24 39;
+    --card-rgb: 17 17 17;
+    --card-foreground-rgb: 240 242 245;
 
-    --popover-rgb: 255 255 255;
-    --popover-foreground-rgb: 17 24 39;
+    --popover-rgb: 17 17 17;
+    --popover-foreground-rgb: 240 242 245;
 
-    --primary-rgb: 37 99 235;
+    --primary-rgb: 14 156 251;
     --primary-foreground-rgb: 255 255 255;
     
-    --secondary-rgb: 243 244 246;
-    --secondary-foreground-rgb: 55 65 81;
+    --secondary-rgb: 38 38 38;
+    --secondary-foreground-rgb: 240 242 245;
 
-    --muted-rgb: 243 244 246;
-    --muted-foreground-rgb: 107 114 128;
+    --muted-rgb: 38 38 38;
+    --muted-foreground-rgb: 160 160 165;
 
-    --accent-rgb: 220 231 255;
-    --accent-foreground-rgb: 30 64 175;
+    --accent-rgb: 252 179 218;
+    --accent-foreground-rgb: 20 20 22;
 
     --destructive-rgb: 220 38 38;
     --destructive-foreground-rgb: 255 255 255;
     
-    --border-rgb: 229 231 235;
-    --input-rgb: 229 231 235;
-    --ring-rgb: 37 99 235;
+    --border-rgb: 38 38 38;
+    --input-rgb: 38 38 38;
+    --ring-rgb: 14 156 251;
 
     --background: var(--background-rgb);
     --foreground: var(--foreground-rgb);

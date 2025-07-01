@@ -25,8 +25,8 @@ export default function RootLayout({
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
       </head>
       <body className={`${inter.variable} font-body antialiased`} suppressHydrationWarning>
-        <div className="fixed inset-0 -z-10 h-full w-full bg-white bg-[linear-gradient(to_right,#f0f0f0_1px,transparent_1px),linear-gradient(to_bottom,#f0f0f0_1px,transparent_1px)] bg-[size:6rem_4rem]">
-            <div className="fixed bottom-0 left-0 right-0 top-0 bg-[radial-gradient(circle_500px_at_50%_200px,#C9EBFF,transparent)]"></div>
+        <div className="fixed inset-0 -z-10 h-full w-full bg-black">
+          <div className="absolute bottom-0 left-0 right-0 top-0 bg-[radial-gradient(circle_farthest-corner_at_100%_0,#fca5a533,transparent_50%),radial-gradient(circle_farthest-corner_at_0_100%,#7dd3fc33,transparent_50%)]"></div>
         </div>
         <AuthProvider>
             <div className="container mx-auto px-4 md:px-8 mt-4">
