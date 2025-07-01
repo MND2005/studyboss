@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -53,13 +54,14 @@ const formSchema = z.object({
 type AddSessionDialogProps = {
   isOpen: boolean;
   onOpenChange: (isOpen: boolean) => void;
-  onAddSession: (session: Omit<StudySession, 'id'>) => void;
+  onAddSession: (session: Omit<StudySession, 'id'>) => Promise<void>;
 };
 
 const subjects = ["Mathematics", "Science", "History", "English", "Art", "Computer Science"];
 
 export function AddSessionDialog({ isOpen, onOpenChange, onAddSession }: AddSessionDialogProps) {
   const { toast } = useToast();
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -69,24 +71,38 @@ export function AddSessionDialog({ isOpen, onOpenChange, onAddSession }: AddSess
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    onAddSession({
-        subject: values.subject,
-        topic: values.topic,
-        date: values.date,
-        duration: values.duration,
-        resources: values.resources,
-    });
-    toast({
-      title: "Session Scheduled!",
-      description: `Your study session for "${values.topic}" has been added.`,
-    });
-    onOpenChange(false);
-    form.reset();
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    setIsSubmitting(true);
+    try {
+        await onAddSession({
+            subject: values.subject,
+            topic: values.topic,
+            date: values.date,
+            duration: values.duration,
+            resources: values.resources,
+        });
+        toast({
+          title: "Session Scheduled!",
+          description: `Your study session for "${values.topic}" has been added.`,
+        });
+        onOpenChange(false);
+        form.reset();
+    } catch (error: any) {
+        toast({
+            variant: "destructive",
+            title: "Error Scheduling Session",
+            description: error.message || "An unexpected error occurred.",
+        });
+    } finally {
+        setIsSubmitting(false);
+    }
   }
 
   return (
-    <Dialog open={isOpen} onOpenChange={onOpenChange}>
+    <Dialog open={isOpen} onOpenChange={(open) => {
+        if (isSubmitting) return;
+        onOpenChange(open);
+    }}>
       <DialogContent className="sm:max-w-[480px]">
         <DialogHeader>
           <DialogTitle>Plan a New Study Session</DialogTitle>
@@ -103,7 +119,7 @@ export function AddSessionDialog({ isOpen, onOpenChange, onAddSession }: AddSess
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Subject</FormLabel>
-                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <Select onValueChange={field.onChange} defaultValue={field.value} disabled={isSubmitting}>
                       <FormControl>
                         <SelectTrigger>
                           <SelectValue placeholder="Select a subject" />
@@ -124,7 +140,7 @@ export function AddSessionDialog({ isOpen, onOpenChange, onAddSession }: AddSess
                   <FormItem>
                     <FormLabel>Topic</FormLabel>
                     <FormControl>
-                      <Input placeholder="e.g. Photosynthesis" {...field} />
+                      <Input placeholder="e.g. Photosynthesis" {...field} disabled={isSubmitting} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -147,6 +163,7 @@ export function AddSessionDialog({ isOpen, onOpenChange, onAddSession }: AddSess
                                 "pl-3 text-left font-normal",
                                 !field.value && "text-muted-foreground"
                                 )}
+                                disabled={isSubmitting}
                             >
                                 {field.value ? (
                                 format(field.value, "PPP")
@@ -162,7 +179,7 @@ export function AddSessionDialog({ isOpen, onOpenChange, onAddSession }: AddSess
                             mode="single"
                             selected={field.value}
                             onSelect={field.onChange}
-                            disabled={(date) => date < new Date("1900-01-01")}
+                            disabled={(date) => date < new Date("1900-01-01") || isSubmitting}
                             initialFocus
                             />
                         </PopoverContent>
@@ -178,7 +195,7 @@ export function AddSessionDialog({ isOpen, onOpenChange, onAddSession }: AddSess
                     <FormItem>
                         <FormLabel>Duration (minutes)</FormLabel>
                         <FormControl>
-                            <Input type="number" placeholder="60" {...field} />
+                            <Input type="number" placeholder="60" {...field} disabled={isSubmitting}/>
                         </FormControl>
                         <FormMessage />
                     </FormItem>
@@ -195,6 +212,7 @@ export function AddSessionDialog({ isOpen, onOpenChange, onAddSession }: AddSess
                     <Textarea
                       placeholder="e.g. Textbook Ch. 4, Khan Academy video"
                       {...field}
+                      disabled={isSubmitting}
                     />
                   </FormControl>
                   <FormMessage />
@@ -202,8 +220,10 @@ export function AddSessionDialog({ isOpen, onOpenChange, onAddSession }: AddSess
               )}
             />
             <DialogFooter>
-              <Button type="button" variant="ghost" onClick={() => onOpenChange(false)}>Cancel</Button>
-              <Button type="submit">Schedule Session</Button>
+              <Button type="button" variant="ghost" onClick={() => onOpenChange(false)} disabled={isSubmitting}>Cancel</Button>
+              <Button type="submit" disabled={isSubmitting}>
+                {isSubmitting ? "Scheduling..." : "Schedule Session"}
+              </Button>
             </DialogFooter>
           </form>
         </Form>

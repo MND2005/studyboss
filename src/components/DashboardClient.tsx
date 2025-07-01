@@ -47,17 +47,15 @@ export function DashboardClient({ user }: DashboardClientProps) {
   }, [user]);
 
   const addSession = async (newSessionData: Omit<StudySession, 'id'>) => {
-    if (!user) return;
+    if (!user) {
+        throw new Error("You must be logged in to add a session.");
+    };
     
-    try {
-        await addDoc(collection(db, "studySessions"), {
-            ...newSessionData,
-            date: Timestamp.fromDate(newSessionData.date),
-            uid: user.uid,
-        });
-    } catch (error) {
-        console.error("Error adding document: ", error);
-    }
+    await addDoc(collection(db, "studySessions"), {
+        ...newSessionData,
+        date: Timestamp.fromDate(newSessionData.date),
+        uid: user.uid,
+    });
   };
 
   return (
