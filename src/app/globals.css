@@ -4,53 +4,34 @@
 
 @layer base {
   :root {
-    --background-rgb: 0 0 0;
-    --foreground-rgb: 240 242 245;
+    --background: 224 71% 4%;
+    --foreground: 210 20% 98%;
 
-    --card-rgb: 17 17 17;
-    --card-foreground-rgb: 240 242 245;
+    --card: 224 71% 6%;
+    --card-foreground: 210 20% 98%;
 
-    --popover-rgb: 17 17 17;
-    --popover-foreground-rgb: 240 242 245;
+    --popover: 224 71% 4%;
+    --popover-foreground: 210 20% 98%;
 
-    --primary-rgb: 14 156 251;
-    --primary-foreground-rgb: 255 255 255;
+    --primary: 206 100% 50%;
+    --primary-foreground: 210 20% 98%;
+
+    --secondary: 215 28% 17%;
+    --secondary-foreground: 210 20% 98%;
+
+    --muted: 215 28% 17%;
+    --muted-foreground: 216 12% 84%;
+
+    --accent: 330 84% 60%;
+    --accent-foreground: 210 20% 98%;
+
+    --destructive: 0 63% 31%;
+    --destructive-foreground: 210 20% 98%;
     
-    --secondary-rgb: 38 38 38;
-    --secondary-foreground-rgb: 240 242 245;
+    --border: 215 28% 17%;
+    --input: 215 28% 17%;
+    --ring: 206 100% 50%;
 
-    --muted-rgb: 38 38 38;
-    --muted-foreground-rgb: 160 160 165;
-
-    --accent-rgb: 252 179 218;
-    --accent-foreground-rgb: 20 20 22;
-
-    --destructive-rgb: 220 38 38;
-    --destructive-foreground-rgb: 255 255 255;
-    
-    --border-rgb: 38 38 38;
-    --input-rgb: 38 38 38;
-    --ring-rgb: 14 156 251;
-
-    --background: var(--background-rgb);
-    --foreground: var(--foreground-rgb);
-    --card: var(--card-rgb);
-    --card-foreground: var(--card-foreground-rgb);
-    --popover: var(--popover-rgb);
-    --popover-foreground: var(--popover-foreground-rgb);
-    --primary: var(--primary-rgb);
-    --primary-foreground: var(--primary-foreground-rgb);
-    --secondary: var(--secondary-rgb);
-    --secondary-foreground: var(--secondary-foreground-rgb);
-    --muted: var(--muted-rgb);
-    --muted-foreground: var(--muted-foreground-rgb);
-    --accent: var(--accent-rgb);
-    --accent-foreground: var(--accent-foreground-rgb);
-    --destructive: var(--destructive-rgb);
-    --destructive-foreground: var(--destructive-foreground-rgb);
-    --border: var(--border-rgb);
-    --input: var(--input-rgb);
-    --ring: var(--ring-rgb);
     --radius: 0.75rem;
   }
 }
@@ -60,7 +41,6 @@
     @apply border-border;
   }
   body {
-    background-color: rgb(var(--background));
-    color: rgb(var(--foreground));
+    @apply bg-background text-foreground;
   }
 }
