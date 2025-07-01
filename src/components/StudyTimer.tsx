@@ -90,16 +90,16 @@ export function StudyTimer({ user, sessions }: StudyTimerProps) {
 
   if (isFocusMode) {
     return (
-      <div className="fixed inset-0 z-50 bg-background flex flex-col items-center justify-center p-8">
-        <div className="text-9xl font-mono font-bold text-foreground tracking-widest mb-12">
+      <div className="fixed inset-0 z-50 bg-background flex flex-col items-center justify-center p-4 sm:p-8">
+        <div className="text-6xl sm:text-7xl md:text-9xl font-mono font-bold text-foreground tracking-normal sm:tracking-widest mb-8 md:mb-12">
           {formatTime(time)}
         </div>
-        <div className="flex justify-center gap-6">
-          <Button onClick={handlePauseResume} variant="secondary" size="lg" className="px-10 py-8 text-2xl">
-              {isPaused ? <Play className="mr-4 h-8 w-8" /> : <Pause className="mr-4 h-8 w-8" />} {isPaused ? 'Resume' : 'Pause'}
+        <div className="flex justify-center items-center gap-4 md:gap-6">
+          <Button onClick={handlePauseResume} variant="secondary" size="lg" className="px-6 py-4 text-lg md:px-10 md:py-8 md:text-2xl">
+              {isPaused ? <Play className="mr-2 md:mr-4 h-6 w-6 md:h-8 md:w-8" /> : <Pause className="mr-2 md:mr-4 h-6 w-6 md:h-8 md:w-8" />} {isPaused ? 'Resume' : 'Pause'}
           </Button>
-          <Button onClick={handleStop} variant="destructive" size="lg" className="px-10 py-8 text-2xl">
-              <Square className="mr-4 h-8 w-8"/> Stop
+          <Button onClick={handleStop} variant="destructive" size="lg" className="px-6 py-4 text-lg md:px-10 md:py-8 md:text-2xl">
+              <Square className="mr-2 md:mr-4 h-6 w-6 md:h-8 md:w-8"/> Stop
           </Button>
         </div>
       </div>
