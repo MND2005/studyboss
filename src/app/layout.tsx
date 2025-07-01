@@ -35,7 +35,7 @@ export default function RootLayout({
         </AuthProvider>
         <Toaster />
         <footer className="text-center p-4 mt-8 text-muted-foreground text-sm">
-          <p>Powered By Jeewana</p>
+          <p>Powered By MND</p>
         </footer>
       </body>
     </html>
