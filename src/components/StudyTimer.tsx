@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
@@ -93,14 +92,14 @@ export function StudyTimer({ user, sessions }: StudyTimerProps) {
         <div className="text-6xl text-center my-4 font-mono font-semibold text-foreground">
           {formatTime(time)}
         </div>
-        <div className="flex justify-center gap-4 my-6">
-          <Button onClick={handleStart} disabled={isActive} size="lg">
+        <div className="flex justify-center gap-4 my-4">
+          <Button onClick={handleStart} disabled={isActive}>
               <Play className="mr-2"/> Start
           </Button>
-          <Button onClick={handlePauseResume} disabled={!isActive} variant="secondary" size="lg">
+          <Button onClick={handlePauseResume} disabled={!isActive} variant="secondary">
               {isPaused ? <Play className="mr-2" /> : <Pause className="mr-2" />} {isPaused ? 'Resume' : 'Pause'}
           </Button>
-          <Button onClick={handleStop} disabled={!isActive} variant="destructive" size="lg">
+          <Button onClick={handleStop} disabled={!isActive} variant="destructive">
               <Square className="mr-2"/> Stop
           </Button>
         </div>
