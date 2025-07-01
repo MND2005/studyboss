@@ -10,7 +10,6 @@ import { CountdownTimer } from "./CountdownTimer";
 import { StudyProgressChart } from "./StudyProgressChart";
 import { StudyStatistics } from "./StudyStatistics";
 import { MarksCard } from "./MarksCard";
-import { ExternalLinksCard } from "./ExternalLinksCard";
 
 type DashboardClientProps = {
   user: User;
@@ -62,9 +61,6 @@ export function DashboardClient({ user }: DashboardClientProps) {
         </div>
         <div className="lg:col-span-1">
             <MarksCard />
-        </div>
-        <div className="lg:col-span-2">
-            <ExternalLinksCard />
         </div>
     </div>
   );
