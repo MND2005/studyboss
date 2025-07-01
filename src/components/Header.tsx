@@ -2,8 +2,9 @@
 
 import { useEffect, useState } from "react";
 import Image from 'next/image';
+import Link from 'next/link';
 import { useAuth } from "./AuthProvider";
-import { auth, googleProvider, signInWithPopup, signOut as firebaseSignOut } from "@/lib/firebase";
+import { auth, signOut as firebaseSignOut } from "@/lib/firebase";
 import { Button } from "./ui/button";
 import { LogIn, LogOut } from "lucide-react";
 
@@ -33,14 +34,6 @@ const CurrentTime = () => {
 export function Header() {
   const { user, loading } = useAuth();
 
-  const handleSignIn = async () => {
-    try {
-      await signInWithPopup(auth, googleProvider);
-    } catch (error) {
-      console.error("Error signing in with Google", error);
-    }
-  };
-
   const handleSignOut = async () => {
     try {
       await firebaseSignOut(auth);
@@ -60,7 +53,7 @@ export function Header() {
             
             <div className="auth-container flex items-center gap-4">
                 {loading ? (
-                    <div className="h-10 w-48 bg-gray-200 animate-pulse rounded-md"></div>
+                    <div className="h-10 w-24 bg-muted animate-pulse rounded-md"></div>
                 ) : user ? (
                     <div id="user-display" className="flex items-center gap-3">
                         <Image 
@@ -73,7 +66,7 @@ export function Header() {
                             data-ai-hint="user avatar"
                         />
                         <div className="text-sm">
-                            <div className="font-medium text-foreground">{user.displayName || 'User'}</div>
+                            <div className="font-medium text-foreground">{user.displayName || user.email}</div>
                             <div className="text-muted-foreground">{user.email}</div>
                         </div>
                         <Button onClick={handleSignOut} variant="outline" size="icon" id="logout-button">
@@ -82,8 +75,10 @@ export function Header() {
                         </Button>
                     </div>
                 ) : (
-                    <Button onClick={handleSignIn} variant="outline" id="login-button">
-                        <LogIn /> Sign in with Google
+                    <Button asChild variant="outline" id="login-button">
+                        <Link href="/login">
+                            <LogIn /> Sign In
+                        </Link>
                     </Button>
                 )}
             </div>

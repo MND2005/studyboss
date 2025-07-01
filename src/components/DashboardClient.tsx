@@ -11,10 +11,9 @@ import { StudyProgressChart } from "./StudyProgressChart";
 import { StudyStatistics } from "./StudyStatistics";
 import { MarksCard } from "./MarksCard";
 import { ExternalLinksCard } from "./ExternalLinksCard";
-import { Card } from "./ui/card";
 
 type DashboardClientProps = {
-  user: User | null;
+  user: User;
 };
 
 export function DashboardClient({ user }: DashboardClientProps) {
@@ -46,15 +45,6 @@ export function DashboardClient({ user }: DashboardClientProps) {
         unsubCountdowns();
     };
   }, [user]);
-
-  if (!user) {
-      return (
-        <div className="text-center py-20">
-            <h2 className="text-3xl font-bold text-primary-foreground">Welcome, Warrior!</h2>
-            <p className="mt-4 text-lg text-muted-foreground">Sign in to begin your training and track your path to mastery.</p>
-        </div>
-      )
-  }
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
